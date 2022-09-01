@@ -21,13 +21,15 @@ public interface FilmStorage {
 
     void deleteFilmById(int id);
 
-    void putLike(int id, int userId);
+    void putRate(int id, int userId, int rate);
 
-    void deleteLike(int id, int userId);
+    void deleteRate(int id, int userId);
 
     Collection<Film> getPopularFilms(int count, int genreId, int year);
 
     Collection<Film> getDirectorFilms(int directorId, String sort);
+
+    Collection<Film> getRecommendationFilms(int userId);
 
     boolean isContains(int id);
 

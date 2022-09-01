@@ -1,5 +1,7 @@
 package ru.yandex.practicum.filmorate.model.film;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -8,6 +10,8 @@ import java.util.*;
 
 @EqualsAndHashCode
 @Data
+@Builder
+@AllArgsConstructor
 public class Film {
 
     @EqualsAndHashCode.Exclude
@@ -16,21 +20,11 @@ public class Film {
     private String description;
     private LocalDate releaseDate;
     private int duration;
-    private int rate;
-    private MPA mpa;
+    @EqualsAndHashCode.Exclude
+    private Double rate;
+    private MPA.Name mpa;
     private LinkedHashSet<Genre> genres;
     private Director director;
-
-    public Film(String name, String description, LocalDate releaseDate, int duration, int rate, MPA mpa,
-                Director director) {
-        this.name = name;
-        this.description = description;
-        this.releaseDate = releaseDate;
-        this.duration = duration;
-        this.rate = rate;
-        this.mpa = mpa;
-        this.director = director;
-    }
 
     public Film(FilmDTO filmDTO) {
         this.id = filmDTO.getId();
@@ -41,7 +35,7 @@ public class Film {
         this.rate = filmDTO.getRate();
         this.mpa = filmDTO.getMpa();
         this.genres = filmDTO.getGenres();
-        this.director = filmDTO.getDirector().get(0);
+        this.director = filmDTO.getDirector();
     }
 
     public Map<String, Object> toMap() {
@@ -51,7 +45,7 @@ public class Film {
         map.put("release_date", releaseDate);
         map.put("duration", duration);
         map.put("rate", rate);
-        map.put("mpa_id", mpa.getId());
+        map.put("mpa", mpa);
         map.put("director_id", director.getId());
         return map;
     }
